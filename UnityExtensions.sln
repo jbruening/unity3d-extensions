@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityExtensions", "UnityExtensions.csproj", "{6565CAF3-44B6-4EC7-A3EF-210A6AAE0337}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityExtensions.Editor", "UnityExtensions.Editor\UnityExtensions.Editor.csproj", "{049D460B-964F-4FAB-B263-5F2DC66D31F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{6565CAF3-44B6-4EC7-A3EF-210A6AAE0337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6565CAF3-44B6-4EC7-A3EF-210A6AAE0337}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6565CAF3-44B6-4EC7-A3EF-210A6AAE0337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{049D460B-964F-4FAB-B263-5F2DC66D31F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{049D460B-964F-4FAB-B263-5F2DC66D31F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{049D460B-964F-4FAB-B263-5F2DC66D31F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{049D460B-964F-4FAB-B263-5F2DC66D31F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
