@@ -155,37 +155,24 @@ namespace UEx
             return Mathf.Clamp01(Mathf.Pow(360f, -Mathf.Pow(distance / inRadius, 2.5f) - 0.01f));
         }
 
-        public static float FastInvSqrt(float x)
+        public unsafe static float FastInvSqrt(float x)
         {
             float xhalf = 0.5f * x;
-            var bitHack = new FourBytes { Float = x };
-            int i = bitHack.Int;
-            i = 0x5f3759df - (i >> 1);  // da magicks
-            bitHack.Int = i;
-            x = bitHack.Float;
-            x = x * (1.5f - (xhalf * x * x)); //newtons method to improve approximation
+            int i = *(int*)&x;
+            i = 0x5f375a86 - (i >> 1); //this constant is slightly more accurate than the common one
+            x = *(float*)&i;
+            x = x * (1.5f - xhalf * x * x);
             return x;
         }
 
-        public static float FastSqrt(float x)
+        public static unsafe float FastSqrt(float x)
         {
             float xhalf = 0.5f * x;
-            var bitHack = new FourBytes { Float = x };
-            int i = bitHack.Int;
+            int i = *(int*) &x;
             i = 0x1fbd1df5 + (i >> 1);  // da magicks
-            bitHack.Int = i;
-            x = bitHack.Float;
+            x = *(float*) &i;
             x = x * (1.5f - (xhalf * x * x)); //newtons method to improve approximation
             return x;
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        private struct FourBytes
-        {
-            [FieldOffset(0)]
-            public float Float;
-            [FieldOffset(0)]
-            public int Int;
         }
 
         public static string ConvertSeconds(int time)
