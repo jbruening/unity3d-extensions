@@ -21,12 +21,13 @@ namespace UEx.Editor
         /// <param name="indicesAdded"></param>
         /// <param name="selectedIndexGainedReference"></param>
         /// <param name="showRemoveButtons"></param>
+        /// <param name="allowSceneObjects"> </param>
         /// <returns>if the array is expanded or not</returns>
-        public static bool ObjectFieldArray<T>(ref T[] objects, bool expanded, string label, Action<int[]> indicesAdded = null, Action selectedIndexGainedReference = null, bool showRemoveButtons = false)
+        public static bool ObjectFieldArray<T>(ref T[] objects, bool expanded, string label, Action<int[]> indicesAdded = null, Action selectedIndexGainedReference = null, bool showRemoveButtons = false, bool allowSceneObjects = true)
         where T : UnityEngine.Object
         {
             int selectedIndex = -1;
-            return ObjectFieldArray(ref objects, expanded, label, ref selectedIndex, indicesAdded, selectedIndexGainedReference, showRemoveButtons);
+            return ObjectFieldArray(ref objects, expanded, label, ref selectedIndex, indicesAdded, selectedIndexGainedReference, showRemoveButtons, allowSceneObjects);
         }
 
         /// <summary>
@@ -43,8 +44,9 @@ namespace UEx.Editor
         /// <param name="indicesAdded"></param>
         /// <param name="selectedIndexGainedReference"></param>
         /// <param name="showRemoveButtons"></param>
+        /// <param name="allowSceneObjects"> </param>
         /// <returns>if the array is expanded or not</returns>
-        public static bool ObjectFieldArray<T>(ref T[] objects, bool expanded, string label, ref int selectedIndex, Action<int[]> indicesAdded = null, Action selectedIndexGainedReference = null, bool showRemoveButtons = false)
+        public static bool ObjectFieldArray<T>(ref T[] objects, bool expanded, string label, ref int selectedIndex, Action<int[]> indicesAdded = null, Action selectedIndexGainedReference = null, bool showRemoveButtons = false, bool allowSceneObjects = true)
             where T : UnityEngine.Object
         {
             var retExpand = EditorGUILayout.Foldout(expanded, label);
@@ -105,7 +107,7 @@ namespace UEx.Editor
                     if (selectedIndex == i)
                     {
                         objects[i] =
-                            EditorGUILayout.ObjectField("☒ Element " + i, objects[i], typeof(GameObject), true) as T;
+                            EditorGUILayout.ObjectField("☒ Element " + i, objects[i], typeof(GameObject), allowSceneObjects) as T;
 
                         if (objects[i] != null)
                         {
@@ -114,7 +116,7 @@ namespace UEx.Editor
                     }
                     else
                         objects[i] =
-                            EditorGUILayout.ObjectField("Element " + i, objects[i], typeof(GameObject), true) as T;
+                            EditorGUILayout.ObjectField("Element " + i, objects[i], typeof(GameObject), allowSceneObjects) as T;
 
                     if (Event.current.type == EventType.mouseUp &&
                         GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition))
