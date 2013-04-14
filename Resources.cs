@@ -30,6 +30,17 @@ namespace UEx
         }
 
         /// <summary>
+        /// Load the specified map information, from the specified level name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="levelName"></param>
+        /// <returns></returns>
+        public static T LoadMapInfo<T>(string levelName) where T: UnityEngine.Object
+        {
+            return Load<T>("SceneInfo/" + levelName + "/map");
+        }
+
+        /// <summary>
         /// Load the specified scene info object (loads from Resources\SceneInfo\<seealso cref="UnityEngine.Application.loadedLevelName">levelName</seealso> folder)
         /// </summary>
         /// <typeparam name="T"></typeparam>
