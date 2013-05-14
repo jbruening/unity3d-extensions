@@ -25,6 +25,17 @@ namespace UEx
         }
 
         /// <summary>
+        /// is the object's layer in the specified layermask
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static bool IsInLayerMask(this GameObject gameObject, LayerMask mask)
+        {
+            return ((mask.value & (1 << gameObject.layer)) > 0);
+        }
+
+        /// <summary>
         /// Returns all monobehaviours (casted to T)
         /// </summary>
         /// <typeparam name="T">interface type</typeparam>
