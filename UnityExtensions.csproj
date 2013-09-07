@@ -43,10 +43,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorSpace\ColorSpace.cs" />
     <Compile Include="ColorX.cs" />
     <Compile Include="ComponentExtensions.cs" />
     <Compile Include="GameObjectExtensions.cs" />
-    <Compile Include="HSV.cs" />
+    <Compile Include="ColorSpace\HSV.cs" />
     <Compile Include="MathX.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="IEnumerableExtensions.cs" />

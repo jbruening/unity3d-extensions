@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-namespace UEx
+namespace UEx.ColorSpace
 {
     // ReSharper disable InconsistentNaming
+    /// <summary>
+    /// 
+    /// </summary>
     public struct HSV
     // ReSharper restore InconsistentNaming
     {

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace UEx
@@ -184,6 +185,29 @@ namespace UEx
             if (_minutes > 0) minutes = _minutes + " minute" + (_minutes > 1 ? "s " : " ");
             if (_seconds > 0) seconds = _seconds + " second" + (_seconds > 1 ? "s " : " ");
             return (minutes + seconds).Substring(0, (minutes + seconds).Length - 1);
+        }
+
+        /// <summary>
+        /// is this float approximately other
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static bool Approximately(this float a, float other)
+        {
+            return Mathf.Approximately(a, other);
+        }
+
+        /// <summary>
+        /// is this float within range of other
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="other"></param>
+        /// <param name="delta"></param>
+        /// <returns></returns>
+        public static bool Approximately(this float x, float other, float delta)
+        {
+            return Math.Abs(x - other) < delta;
         }
     }
 }

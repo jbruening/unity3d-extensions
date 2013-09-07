@@ -16,7 +16,7 @@ namespace UEx
         /// <returns></returns>
         public static T Load<T>(string path) where T : UnityEngine.Object
         {
-            return (T)UnityEngine.Resources.Load(path, typeof(T));
+            return UnityEngine.Resources.Load(path, typeof(T)) as T;
         }
 
         /// <summary>
