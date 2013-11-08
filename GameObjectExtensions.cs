@@ -36,73 +36,77 @@ namespace UEx
         }
 
         /// <summary>
-        /// Returns all monobehaviours (casted to T)
+        /// Returns all monobehaviours that are of type T, as T. Works for interfaces
+        /// </summary>
+        /// <typeparam name="T">class type</typeparam>
+        /// <param name="gObj"></param>
+        /// <returns></returns>
+        public static T[] GetClasses<T>(this GameObject gObj) where T : class
+        {
+            var ts = gObj.GetComponents(typeof (T));
+
+            var ret = new T[ts.Length];
+            for (int i = 0; i < ts.Length; i++)
+            {
+                ret[i] = ts[i] as T;
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns all classes of type T (casted to T)
+        /// works with interfaces
         /// </summary>
         /// <typeparam name="T">interface type</typeparam>
         /// <param name="gObj"></param>
         /// <returns></returns>
-        public static T[] GetInterfaces<T>(this GameObject gObj)
+        public static T[] GetClasses<T>(this Transform gObj) where T : class
         {
-            if (!typeof (T).IsInterface) throw new SystemException("Specified type is not an interface!");
-            var mObjs = gObj.GetComponents<MonoBehaviour>();
-
-            return
-                (from a in mObjs where a.GetType().GetInterfaces().Any(k => k == typeof (T)) select (T) (object) a).ToArray();
+            return gObj.gameObject.GetClasses<T>();
         }
 
         /// <summary>
-        /// Returns all monobehaviours (casted to T)
-        /// </summary>
-        /// <typeparam name="T">interface type</typeparam>
-        /// <param name="gObj"></param>
-        /// <returns></returns>
-        public static T[] GetInterfaces<T>(this Transform gObj)
-        {
-            if (!typeof (T).IsInterface) throw new SystemException("Specified type is not an interface!");
-            var mObjs = gObj.GetComponents<MonoBehaviour>();
-
-            return
-                (from a in mObjs where a.GetType().GetInterfaces().Any(k => k == typeof (T)) select (T) (object) a).ToArray();
-        }
-
-        /// <summary>
-        /// Returns the first monobehaviour that is of the interface type (casted to T)
-        /// </summary>
-        /// <typeparam name="T">Interface type</typeparam>
-        /// <param name="gObj"></param>
-        /// <returns></returns>
-        public static T GetInterface<T>(this GameObject gObj)
-        {
-            if (!typeof (T).IsInterface) throw new SystemException("Specified type is not an interface!");
-            return gObj.GetInterfaces<T>().FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Returns the first instance of the monobehaviour that is of the interface type T (casted to T)
+        /// Returns the first monobehaviour that is of the class Type, as T
+        /// works with interfaces
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="gObj"></param>
         /// <returns></returns>
-        public static T GetInterfaceInChildren<T>(this GameObject gObj)
+        public static T GetClass<T>(this GameObject gObj) where T : class
         {
-            if (!typeof (T).IsInterface) throw new SystemException("Specified type is not an interface!");
-            return gObj.GetInterfacesInChildren<T>().FirstOrDefault();
+            return gObj.GetComponent(typeof (T)) as T;
         }
 
         /// <summary>
-        /// Gets all monobehaviours in children that implement the interface of type T (casted to T)
+        /// Gets all monobehaviours in children that implement the class of type T (casted to T)
+        /// works with interfaces
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="gObj"></param>
         /// <returns></returns>
-        public static T[] GetInterfacesInChildren<T>(this GameObject gObj)
+        public static T[] GetClassesInChildren<T>(this GameObject gObj) where T : class
         {
-            if (!typeof (T).IsInterface) throw new SystemException("Specified type is not an interface!");
+            var ts = gObj.GetComponentsInChildren(typeof(T));
 
-            var mObjs = gObj.GetComponentsInChildren<MonoBehaviour>();
+            var ret = new T[ts.Length];
+            for (int i = 0; i < ts.Length; i++)
+            {
+                ret[i] = ts[i] as T;
+            }
+            return ret;
+        }
 
-            return
-                (from a in mObjs where a.GetType().GetInterfaces().Any(k => k == typeof (T)) select (T) (object) a).ToArray();
+        /// <summary>
+        /// 
+        /// Returns the first instance of the monobehaviour that is of the class type T (casted to T)
+        /// works with interfaces
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="gObj"></param>
+        /// <returns></returns>
+        public static T GetClassInChildren<T>(this GameObject gObj) where T : class
+        {
+            return gObj.GetComponentInChildren(typeof (T)) as T;
         }
     }
 }
