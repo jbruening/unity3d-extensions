@@ -52,7 +52,6 @@ namespace UEx.Editor
             var retExpand = EditorGUILayout.Foldout(expanded, label);
             if (retExpand)
             {
-                EditorGUIUtility.LookLikeInspector();
                 if (Event.current.type == EventType.repaint || Event.current.type == EventType.DragPerform)
                 {
                     if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition))
@@ -133,7 +132,6 @@ namespace UEx.Editor
                 if (removeind > -1)
                     ArrayUtility.RemoveAt(ref objects, removeind);
                 EditorGUI.indentLevel--;
-                EditorGUIUtility.LookLikeControls();
             }
 
             return retExpand;

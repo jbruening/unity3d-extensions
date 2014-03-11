@@ -12,7 +12,8 @@ namespace UEx.Threading
     public class Dispatcher : MonoBehaviour
     {
         private static Dispatcher _instance;
-        private static Thread _unityThread;
+        [ThreadStatic]
+        private static bool _isUnityThread;
 
         public static Dispatcher Instance
         {
@@ -31,16 +32,22 @@ namespace UEx.Threading
         public int MaxDispatchesPerUpdate = 50;
         public int MinDispatchesPerUpdate = 2;
 
+        private class DispatchAction
+        {
+            public Action Action;
+            public Action<object> ActionState;
+            public object State;
+        }
+
         Object _eLock = new Object();
-        Queue<Action> _queuedActions = new Queue<Action>();
-        Queue<Action> _enqueueQueue = new Queue<Action>();
+        Queue<DispatchAction> _queuedActions = new Queue<DispatchAction>();
+        Queue<DispatchAction> _enqueueQueue = new Queue<DispatchAction>();
 
         void Awake()
         {
             if (_instance == null)
                 _instance = this;
-            if (_unityThread == null)
-                _unityThread = Thread.CurrentThread;
+            _isUnityThread = true;
         }
 
         void Update()
@@ -61,21 +68,54 @@ namespace UEx.Threading
 
             //make sure that we haven't min-clamped more than the number of actions that actually existed
             qSize = Mathf.Min(_queuedActions.Count, qSize);
-            while (_queuedActions.Count > qSize)
+            DispatchAction dispatch;
+            while (_queuedActions.Count >= qSize && _queuedActions.Count != 0)
             {
-                _queuedActions.Dequeue()();
+                dispatch = _queuedActions.Dequeue();
+                if (dispatch.Action != null)
+                    dispatch.Action();
+                else
+                    dispatch.ActionState(dispatch.State);
             }
         }
 
         /// <summary>
         /// Run the action on the main unity thread
+        /// even if this is called from the main unity thread, it will still be added to the end of the queue.
         /// </summary>
         /// <param name="action"></param>
         public void Dispatch(Action action)
         {
-            lock (_eLock)
+            if (action == null)
+                throw new ArgumentNullException("action");
+
+            DispatchAction dispatch = new DispatchAction() { Action = action };
+            
+        }
+        /// <summary>
+        /// Run the action on the main unity thread, with the specified state
+        /// even if this is called from the main unity thread, it will still be added to the end of the queue.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="state"></param>
+        public void Dispatch(Action<object> action, object state)
+        {
+            if (action == null)
+                throw new ArgumentNullException("action");
+
+            DispatchAction dispatch = new DispatchAction() { ActionState = action, State = state };
+        }
+
+        void QueueDispatch(DispatchAction dispatch)
+        {
+            if (_isUnityThread)
+                _queuedActions.Enqueue(dispatch);
+            else
             {
-                _enqueueQueue.Enqueue(action);
+                lock (_eLock)
+                {
+                    _enqueueQueue.Enqueue(dispatch);
+                }
             }
         }
     }
