@@ -108,5 +108,48 @@ namespace UEx
         {
             return gObj.GetComponentInChildren(typeof (T)) as T;
         }
+
+        /// <summary>
+        /// executes message with the component of type TI if it exists in gameobject's heirarchy. this executes on all behaviours that implement TI.
+        /// parm is included in the action, to help reduce closures
+        /// </summary>
+        /// <typeparam name="TI">component type to get</typeparam>
+        /// <typeparam name="TParm">type of the parameter to pass into the message</typeparam>
+        /// <param name="gobj"></param>
+        /// <param name="message">action to run on each component that matches TI</param>
+        /// <param name="parm">the object to pass into the message. this reduces closures.</param>
+        public static void DoMessage<TI, TParm>(this GameObject gobj, Action<TI, TParm> message, TParm parm) where TI : class
+        {
+            var ts = gobj.GetComponentsInChildren(typeof (TI));
+            for (int i = 0; i < ts.Length; i++)
+            {
+                var comp = ts[i] as TI;
+                if (comp != null)
+                {
+                    message(comp, parm);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// executes message with the component of type TI if it exists in gameobject's heirarchy. this executes for all behaviours that implement TI.
+        /// It is recommended that you use the other DoMessage if you need to pass a variable into the message, to reduce garbage pressure due to lambdas.
+        /// </summary>
+        /// <typeparam name="TI"></typeparam>
+        /// <param name="gobj"></param>
+        /// <param name="message"></param>
+        public static void DoMessage<TI>(this GameObject gobj, Action<TI> message) where TI : class
+        {
+            var ts = gobj.GetComponentsInChildren(typeof (TI));
+            for (int i = 0; i < ts.Length; i++)
+            {
+                var comp = ts[i] as TI;
+                if (comp != null)
+                {
+                    message(comp);
+                }
+            }
+        }
     }
 }
