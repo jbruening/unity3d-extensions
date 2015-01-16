@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UEx.Threading.Tasks
+namespace System.Threading.Tasks
 {
     public static class Parallel
     {

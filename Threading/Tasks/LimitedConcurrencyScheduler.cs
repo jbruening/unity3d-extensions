@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace UEx.Threading.Tasks
+namespace System.Threading.Tasks
 {
     /// <summary>
     /// Provides a task scheduler that ensures a maximum concurrency level while  

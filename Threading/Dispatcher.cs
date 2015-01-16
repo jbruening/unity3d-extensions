@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 using Object = System.Object;
 
-namespace UEx.Threading
+namespace System.Threading
 {
     //needs to be monobehaviour so we can correctly get the thread dispatches should run on
     public class Dispatcher : MonoBehaviour
