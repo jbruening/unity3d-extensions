@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorSpace\ColorSpace.cs" />
+    <Compile Include="ColorSpace\HSL.cs" />
     <Compile Include="ColorX.cs" />
     <Compile Include="ComponentExtensions.cs" />
     <Compile Include="Dispatcher.cs" />

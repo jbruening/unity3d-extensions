@@ -116,5 +116,39 @@ namespace UEx.ColorSpace
 
             return new Color(r, g, b, 1f);
         }
+
+        public static HSV FromColor(Color color)
+        {
+            float min, max, delta, v, s, h;
+
+            min = Mathf.Min(color.r, color.g, color.b);
+            max = Mathf.Max(color.r, color.g, color.b);
+            v = max;				// v
+
+            delta = max - min;
+
+            if (max != 0)
+                s = delta / max;		// s
+            else
+            {
+                // r = g = b = 0		// s = 0, v is undefined
+                s = 0;
+                h = -1f;
+                return new HSV() { Hue = h, Saturation = s, Value = v };
+            }
+
+            if (color.r == max)
+                h = (color.g - color.b) / delta;		// between yellow & magenta
+            else if (color.g == max)
+                h = 2f + (color.b - color.r) / delta;	// between cyan & yellow
+            else
+                h = 4f + (color.r - color.g) / delta;	// between magenta & cyan
+
+            h *= 60f;				// degrees
+            if (h < 0)
+                h += 360f;
+
+            return new HSV() { Hue = h, Saturation = s, Value = v };
+        }
     }
 }
