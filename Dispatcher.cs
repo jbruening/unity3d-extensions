@@ -82,9 +82,25 @@ namespace UEx
 
     public static class TaskExtensions
     {
+        /// <summary>
+        /// start a couroutine that waits on the specified task in a global component
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         public static Coroutine Yield(this Task task)
         {
-            return Dispatcher.Current.StartCoroutine(CompletionEnumerator(task));
+            return task.Yield(Dispatcher.Current);
+        }
+
+        /// <summary>
+        /// start a coroutine on the specified container that waits on the specified task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="container"></param>
+        /// <returns></returns>
+        public static Coroutine Yield(this Task task, MonoBehaviour container)
+        {
+            return container.StartCoroutine(CompletionEnumerator(task));
         }
 
         private static IEnumerator CompletionEnumerator(Task task)
