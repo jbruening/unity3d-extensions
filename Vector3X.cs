@@ -15,7 +15,9 @@ namespace UEx
         /// <returns>squared distance</returns>
         public static float SqrDistance(this Vector3 first, Vector3 second)
         {
-            return Vector3.SqrMagnitude(first - second);
+            return (first.x - second.x) * (first.x - second.x) +
+                  (first.y - second.y) * (first.y - second.y) +
+                  (first.z - second.z) * (first.z - second.z);
         }
 
         /// <summary>
@@ -291,6 +293,12 @@ namespace UEx
             return new Vector3(v1.x + (v2.x - v1.x) * value,
                                v1.y + (v2.y - v1.y) * value,
                                v1.z + (v2.z - v1.z) * value);
+        }
+
+        public static Vector3 Sinerp(Vector3 from, Vector3 to, float value)
+        {
+            value = Mathf.Sin(value*Mathf.PI*0.5f);
+            return Vector3.Lerp(from, to, value);
         }
     }
 }
